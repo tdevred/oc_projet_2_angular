@@ -7,3 +7,17 @@ example of an olympic country:
     participations: []
 }
 */
+
+import { Participation } from "./Participation"
+
+export type OlympicCountry = {
+    id: number,
+    country: string,
+    participations: Array<Participation>
+}
+
+export type OlympicResume = {
+    id: number,
+    country: string,
+    medals: number
+}

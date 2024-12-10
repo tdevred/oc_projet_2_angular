@@ -1,3 +1,27 @@
 <h2>Olympic games app</h2>
 <hr />
-<p>{{ (olympics$ | async)?.length }} data loaded</p>
+<!-- <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
+<!-- <p>{{ (olympics$ | async) }} data loaded</p> -->
+<!-- <ul>
+<li *ngFor="let olympic of olympics$ | async">{{ olympic.country }}</li>
+</ul> -->
+<!-- Afficher le nombre -->
+
+<p>Cette application est un navigateur dans les données des Jeux Olympiques. Vous pouvez naviguer librement et découvrir
+    leurs résultats et l'évolution de leur performance dans le temps.</p>
+
+<div class="stats">
+    <div class="stat">
+        <div class="stat-label">Number of JO</div>
+        <div class="stat-value">{{ numberOfJOs }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Number of countries</div>
+        <div class="stat-value">{{ numberOfCountries }}</div>
+    </div>
+</div>
+<ngx-charts-pie-chart [view]="view" [results]="single" [gradient]="gradient" [labels]="showLabels"
+    [tooltipText]="formatLabels" [doughnut]="isDoughnut" (select)="onSelect($event)" (activate)="onActivate($event)"
+    (deactivate)="onDeactivate($event)">
+
+</ngx-charts-pie-chart>

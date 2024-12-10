@@ -1,0 +1,37 @@
+.packing-div {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.country-name {
+    text-align: center;
+    background-color: blue;
+    border: 1px solid blue;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    margin:auto;
+    color: white;
+    font-size: large;
+}
+
+.stat {
+    border: 10px solid cyan;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: medium;
+    text-align: center;
+}
+
+.stat-label {
+    color: grey;
+}
+
+.stat-value {
+    color: red;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+}

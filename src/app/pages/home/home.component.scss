@@ -1,0 +1,21 @@
+.stat {
+    border:10px solid cyan;
+    border-radius: 2px;
+    padding: 20px;
+    font-size: medium;
+    text-align: center;
+}
+
+.stat-label {
+    color: grey;
+}
+
+.stat-value {
+    color: red;
+}
+
+.stats {
+    border:10px solid blue;
+    display: flex;
+    justify-content: space-around;
+}
