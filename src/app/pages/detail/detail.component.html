@@ -1,29 +1,39 @@
 <a style="text-decoration:underline; color: blue" (click)="navigateToHome()">Retour</a>
+
+@if(this.isError)
+{
+    <p>An error has occured while retrieving countries.</p>
+}
 @if(olympic) {
-<div class="packing-div"><div class="country-name">{{ olympic.country }}</div></div>
 <div class="stats">
-    <div class="stat">
-        <div class="stat-label">Number of entries </div>
-        <div class="stat-value">{{ numberOfJOs }}</div>
+    <div>
+        <div class="stats-title">{{ olympic.country }}</div>
     </div>
-    <div class="stat">
-        <div class="stat-label">Total number medals </div>
-        <div class="stat-value">{{ totalNumberOfMedals }}</div>
-    </div>
-    <div class="stat">
-        <div class="stat-label">Total number of athletes </div>
-        <div class="stat-value">{{ totalNumberOfAthletes }}</div>
+    <div>
+        <div class="stat">
+            <div class="stat-label">Number of entries </div>
+            <div class="stat-value">{{ numberOfJOs }}</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Total number medals </div>
+            <div class="stat-value">{{ totalNumberOfMedals }}</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Total number of athletes </div>
+            <div class="stat-value">{{ totalNumberOfAthletes }}</div>
+        </div>
     </div>
 </div>
-<ngx-charts-line-chart [view]="view" [results]="data" [gradient]="gradient" [legend]="showLegend"
-    (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)" [xAxis]="true"
-    [yAxis]="true" [xAxisLabel]="'Date des JO'" [yAxisLabel]="'Nombre de médailles'" [showXAxisLabel]="true"
-    [showYAxisLabel]="true"
-    [xScaleMin]="xScaleMin" [xScaleMax]="xScaleMax" [yScaleMin]="yScaleMin"
-    [yScaleMax]="yScaleMax"
-    [xAxisTickFormatting]="xAxisTickFormatting"
-    [yAxisTickFormatting]="yAxisTickFormatting"
-    >
+
+<div class="chart-container">
+<ngx-charts-line-chart [view]="view" [results]="data" [gradient]="false" [xAxis]="true"
+    [yAxis]="true" [xAxisLabel]="'Dates'" [showXAxisLabel]="true"
+    [showYAxisLabel]="true" [xScaleMin]="xScaleMin" [xScaleMax]="xScaleMax" [yScaleMin]="yScaleMin"
+    [yScaleMax]="yScaleMax" [xAxisTickFormatting]="xAxisTickFormatting" [yAxisTickFormatting]="yAxisTickFormatting">
 
 </ngx-charts-line-chart>
+</div>
+}
+@else {
+<p>Chargement...</p>
 }

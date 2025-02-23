@@ -9,19 +9,29 @@
 
 <p>Cette application est un navigateur dans les données des Jeux Olympiques. Vous pouvez naviguer librement et découvrir
     leurs résultats et l'évolution de leur performance dans le temps.</p>
-
+@if(this.isError) {
+<p>An error has occured while retrieving countries.</p>
+}
+@if(this.chartData) {
 <div class="stats">
-    <div class="stat">
-        <div class="stat-label">Number of JO</div>
-        <div class="stat-value">{{ numberOfJOs }}</div>
+    <div>
+        <div class="stats-title">Medals per Country</div>
     </div>
-    <div class="stat">
-        <div class="stat-label">Number of countries</div>
-        <div class="stat-value">{{ numberOfCountries }}</div>
+    <div>
+        <div class="stat">
+            <div class="stat-label">Number of JOs</div>
+            <div class="stat-value">{{ numberOfJOs }}</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Number of countries</div>
+            <div class="stat-value">{{ numberOfCountries }}</div>
+        </div>
     </div>
 </div>
-<ngx-charts-pie-chart [view]="view" [results]="single" [gradient]="gradient" [labels]="showLabels"
-    [tooltipText]="formatLabels" [doughnut]="isDoughnut" (select)="onSelect($event)" (activate)="onActivate($event)"
-    (deactivate)="onDeactivate($event)">
+<div class="chart-container">
+    <ngx-charts-pie-chart [view]="view" [results]="chartData" [gradient]="false" [labels]="true"
+        [tooltipText]="formatLabels" [doughnut]="false" (select)="onSelect($event)">
 
-</ngx-charts-pie-chart>
+    </ngx-charts-pie-chart>
+</div>
+}

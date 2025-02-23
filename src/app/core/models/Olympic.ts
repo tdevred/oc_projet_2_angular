@@ -1,4 +1,3 @@
-// TODO: create here a typescript interface for an olympic country
 /*
 example of an olympic country:
 {
@@ -14,10 +13,4 @@ export type OlympicCountry = {
     id: number,
     country: string,
     participations: Array<Participation>
-}
-
-export type OlympicResume = {
-    id: number,
-    country: string,
-    medals: number
 }

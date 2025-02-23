@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError, filter, first, map, tap } from 'rxjs/operators';
 import { OlympicCountry } from '../models/Olympic';
 
 @Injectable({
@@ -11,21 +11,15 @@ export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<OlympicCountry[]>([]);
 
-  private olympicList: Array<OlympicCountry> = [];
-
   constructor(private http: HttpClient) { }
 
   loadInitialData() {
     return this.http.get<OlympicCountry[]>(this.olympicUrl).pipe(
       tap((value) => {
-        console.log('value in service is', value)
-        this.olympicList = value;
         this.olympics$.next(value)
       }),
       catchError((error, caught) => {
-        // TODO: improve error handling
         console.error(error);
-        console.log("something went wrong")
         // can be useful to end loading state and let the user know something went wrong
         this.olympics$.error('something bad happened')
         return caught;
@@ -37,8 +31,16 @@ export class OlympicService {
     return this.olympics$.asObservable();
   }
 
-  getOlympic(id: number): OlympicCountry | undefined {
-    console.log("id is", id, "is found", this.olympicList.map(c => c.id), this.olympicList.some(c => c.id == id))
-    return this.olympicList.find(c => c.id == id)
+  getOlympicById(id: number): Observable<OlympicCountry> {
+    return this.olympics$.pipe(filter(v => v.length > 0), first(), map(
+      (v) => {
+        const found = v.find(c => c.id == id)
+        if (!found) {
+          throw new Error("not found")
+        }
+        return found;
+      }))
   }
+
+
 }

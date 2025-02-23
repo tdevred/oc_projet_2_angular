@@ -27,3 +27,11 @@ Once mastered, you should continue by creating the typescript interfaces inside 
 You're now ready to implement the requested features.
 
 Good luck!
+
+# Projet : Développez le frontend en utilisant Angular
+
+Le but de ce projet était de proposer une visualisation des données de Jeux Olympiques à l'aide de plusieurs graphiques.
+
+## Page d'accueil
+
+Sur la page d'acceuil, on retrouve
