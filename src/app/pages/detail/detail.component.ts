@@ -66,8 +66,12 @@ export class DetailComponent implements OnInit, OnDestroy {
 
         this.computeScale(datesJO, nbMedaillesParParticipation);
       },
-      _err => {
-        this.isError = true;
+      err => {
+        if(err.message == "not found") {
+          this.navigateToHome();
+        } else {
+          this.isError = true;
+        }
       })
   }
 
