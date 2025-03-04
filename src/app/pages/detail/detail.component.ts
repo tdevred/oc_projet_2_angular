@@ -1,15 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { filter, first, Observable, Subscription, tap } from 'rxjs';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-detail',
-  standalone: true,
-  imports: [NgxChartsModule],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.scss'
 })
@@ -19,9 +15,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   public data: { name: string, series: { name: number, value: number }[] }[];
   public view: [number, number] = [700, 300];
 
-  public numberOfJOs!: number;
-  public totalNumberOfMedals!: number;
-  public totalNumberOfAthletes!: number;
+  public stats!: { name: string, value: number }[];
 
   private subscription!: Subscription;
 
@@ -56,18 +50,20 @@ export class DetailComponent implements OnInit, OnDestroy {
           series: found.participations.map(p => ({ "name": p.year, "value": p.medalsCount }))
         }]
 
-        this.numberOfJOs = found.participations.length;
-        this.totalNumberOfAthletes = found.participations.map(p => p.athleteCount).reduce((a, b) => a + b, 0)
-
         const nbMedaillesParParticipation = found.participations.map(p => p.medalsCount)
-        this.totalNumberOfMedals = nbMedaillesParParticipation.reduce((a, b) => a + b, 0)
+
+        this.stats = [
+          { name: "Number of entries", value: found.participations.length },
+          { name: "Total number of medals", value: nbMedaillesParParticipation.reduce((a, b) => a + b, 0) },
+          { name: "Total number of athletes", value: found.participations.map(p => p.athleteCount).reduce((a, b) => a + b, 0) },
+        ]
 
         const datesJO = found.participations.map(p => p.year);
 
         this.computeScale(datesJO, nbMedaillesParParticipation);
       },
       err => {
-        if(err.message == "not found") {
+        if (err.message == "not found") {
           this.navigateToHome();
         } else {
           this.isError = true;
@@ -77,9 +73,8 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   /**
    * Ajuste l'échelle du graphique 
-   * */ 
+   * */
   computeScale(datesJO: number[], nbMedaillesParParticipation: number[]) {
-    
     this.xScaleMin = Math.min(...datesJO) - 4
     this.xScaleMax = Math.max(...datesJO) + 4
 

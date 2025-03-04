@@ -13,21 +13,7 @@
 <p>An error has occured while retrieving countries.</p>
 }
 @if(this.chartData) {
-<div class="stats">
-    <div>
-        <div class="stats-title">Medals per Country</div>
-    </div>
-    <div>
-        <div class="stat">
-            <div class="stat-label">Number of JOs</div>
-            <div class="stat-value">{{ numberOfJOs }}</div>
-        </div>
-        <div class="stat">
-            <div class="stat-label">Number of countries</div>
-            <div class="stat-value">{{ numberOfCountries }}</div>
-        </div>
-    </div>
-</div>
+<app-stats title="Medals per country" [stats]="stats" />
 <div class="chart-container">
     <ngx-charts-pie-chart [view]="view" [results]="chartData" [gradient]="false" [labels]="true"
         [tooltipText]="formatLabels" [doughnut]="false" (select)="onSelect($event)">

@@ -23,8 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   chartData: PieChartData[] = [];
   view: [number, number] = [700, 400];
 
-  numberOfCountries!: number;
-  numberOfJOs!: number;
+  stats!: { name: string, value: number }[];
 
   public olympics$: Observable<OlympicCountry[]> = of();
 
@@ -47,12 +46,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.countries = v;
         this.chartData = ovs;
 
-        this.numberOfCountries = v.length
-
         const allYears = v.flatMap(vv => vv.participations.map(vvv => vvv.year));
         const allUniqueYears = [... new Set(allYears)];
 
-        this.numberOfJOs = allUniqueYears.length
+        this.stats = [
+          { name: "Number of JOs", value: allUniqueYears.length },
+          { name: "Number of countries", value: v.length }
+        ]
       },
       _err => {
         this.isError = true;
