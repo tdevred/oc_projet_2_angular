@@ -6,15 +6,12 @@
 }
 @if(olympic) {
 <app-stats [title]="olympic.country" [stats]="stats" />
+}
 <div class="chart-container">
-<ngx-charts-line-chart [view]="view" [results]="data" [gradient]="false" [xAxis]="true"
+<ngx-charts-line-chart [view]="view" [results]="data$ | async" [gradient]="false" [xAxis]="true"
     [yAxis]="true" [xAxisLabel]="'Dates'" [showXAxisLabel]="true"
     [showYAxisLabel]="true" [xScaleMin]="xScaleMin" [xScaleMax]="xScaleMax" [yScaleMin]="yScaleMin"
     [yScaleMax]="yScaleMax" [xAxisTickFormatting]="xAxisTickFormatting" [yAxisTickFormatting]="yAxisTickFormatting">
 
 </ngx-charts-line-chart>
 </div>
-}
-@else {
-<p>Chargement...</p>
-}

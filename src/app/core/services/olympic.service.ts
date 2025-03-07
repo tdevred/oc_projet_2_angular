@@ -28,12 +28,14 @@ export class OlympicService {
   }
 
   getOlympics(): Observable<OlympicCountry[]> {
-    return this.olympics$.asObservable();
+    return this.olympics$.asObservable().pipe(filter(v => v.length > 0), first());
   }
 
   getOlympicById(id: number): Observable<OlympicCountry> {
-    return this.olympics$.pipe(filter(v => v.length > 0), first(), map(
+    console.log(id)
+    return this.olympics$.asObservable().pipe(tap(v => console.log(v)), filter(v => v.length > 0), first(), map(
       (v) => {
+        console.log(v)
         const found = v.find(c => c.id == id)
         if (!found) {
           throw new Error("not found")
@@ -41,6 +43,4 @@ export class OlympicService {
         return found;
       }))
   }
-
-
 }

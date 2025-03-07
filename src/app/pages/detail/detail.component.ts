@@ -1,25 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, first, Observable, Subscription, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
+
+type LineChartData = {
+  name: string,
+  series: { name: number, value: number }[]
+}[]
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.scss'
 })
-export class DetailComponent implements OnInit, OnDestroy {
-  public id: number;
+export class DetailComponent implements OnInit {
+  public id!: number;
+
   public olympic: OlympicCountry | undefined;
-  public data: { name: string, series: { name: number, value: number }[] }[];
+  
+  public data$!: Observable<LineChartData>;
+
   public view: [number, number] = [700, 300];
 
   public stats!: { name: string, value: number }[];
-
-  private subscription!: Subscription;
-
-  olympics$: Observable<OlympicCountry[]>;
 
   // mettre les ticks
 
@@ -31,24 +35,15 @@ export class DetailComponent implements OnInit, OnDestroy {
   isError: boolean;
 
   constructor(private olympicService: OlympicService, private route: ActivatedRoute, private router: Router) {
-    this.id = -1
-    this.data = []
-
-    this.olympics$ = this.olympicService.getOlympics()
     this.isError = false;
   }
 
   ngOnInit(): void {
     this.id = Number.parseInt(this.route.snapshot.params['id']);
 
-    this.subscription = this.olympicService.getOlympicById(this.id).subscribe(
+    this.data$ = this.olympicService.getOlympicById(this.id).pipe(tap(
       (found) => {
         this.olympic = found;
-
-        this.data = [{
-          name: found.country,
-          series: found.participations.map(p => ({ "name": p.year, "value": p.medalsCount }))
-        }]
 
         const nbMedaillesParParticipation = found.participations.map(p => p.medalsCount)
 
@@ -61,14 +56,19 @@ export class DetailComponent implements OnInit, OnDestroy {
         const datesJO = found.participations.map(p => p.year);
 
         this.computeScale(datesJO, nbMedaillesParParticipation);
-      },
-      err => {
-        if (err.message == "not found") {
-          this.navigateToHome();
-        } else {
-          this.isError = true;
-        }
-      })
+      }),
+      map(found => [{
+        name: found.country,
+        series: found.participations.map(p => ({ "name": p.year, "value": p.medalsCount }))
+      }]), catchError(
+        err => {
+          if (err.message == "not found") {
+            this.navigateToHome();
+          } else {
+            this.isError = true;
+          }
+          return of([]);
+        }))
   }
 
   /**
@@ -80,10 +80,6 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     this.yScaleMin = Math.min(...nbMedaillesParParticipation) - 5
     this.yScaleMax = Math.max(...nbMedaillesParParticipation) + 5
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe()
   }
 
   navigateToHome(): void {
