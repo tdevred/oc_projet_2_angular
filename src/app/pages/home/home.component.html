@@ -1,23 +1,15 @@
 <h2>Olympic games app</h2>
 <hr />
-<!-- <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
-<!-- <p>{{ (olympics$ | async) }} data loaded</p> -->
-<!-- <ul>
-<li *ngFor="let olympic of olympics$ | async">{{ olympic.country }}</li>
-</ul> -->
-<!-- Afficher le nombre -->
 
 <p>Cette application est un navigateur dans les données des Jeux Olympiques. Vous pouvez naviguer librement et découvrir
     leurs résultats et l'évolution de leur performance dans le temps.</p>
 @if(this.isError) {
 <p>An error has occured while retrieving countries.</p>
 }
-@if(this.chartData) {
 <app-stats title="Medals per country" [stats]="stats" />
 <div class="chart-container">
-    <ngx-charts-pie-chart [view]="view" [results]="chartData" [gradient]="false" [labels]="true"
+    <ngx-charts-pie-chart [view]="view" [results]="chartData$ | async" [gradient]="false" [labels]="true"
         [tooltipText]="formatLabels" [doughnut]="false" (select)="onSelect($event)">
 
     </ngx-charts-pie-chart>
 </div>
-}
