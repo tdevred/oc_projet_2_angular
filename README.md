@@ -6,7 +6,7 @@ Le but de ce projet était de proposer une visualisation des données de Jeux Ol
 
 Ce code fonctionne autour de 3 composants affichés selon l'URL entrée par l'utilisateur :
 
-### Home : accueil
+### Home : accueil
 
 Ce composant représente le point d'entrée attendu de l'application pour un utilisateur. Les données générales sur l'ensemble des pays participants sont affichées sous la forme d'un graphique en disque, et l'accès au détail de chaque pays se fait en cliquant sur la portion de disque correspondante.
 
