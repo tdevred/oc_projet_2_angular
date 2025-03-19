@@ -1,37 +1,25 @@
-# OlympicGamesStarter
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.3.
-
-Don't forget to install your node_modules before starting (`npm install`).
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Where to start
-
-As you can see, an architecture has already been defined for the project. It is just a suggestion, you can choose to use your own. The predefined architecture includes (in addition to the default angular architecture) the following:
-
-- `components` folder: contains every reusable components
-- `pages` folder: contains components used for routing
-- `core` folder: contains the business logic (`services` and `models` folders)
-
-I suggest you to start by understanding this starter code. Pay an extra attention to the `app-routing.module.ts` and the `olympic.service.ts`.
-
-Once mastered, you should continue by creating the typescript interfaces inside the `models` folder. As you can see I already created two files corresponding to the data included inside the `olympic.json`. With your interfaces, improve the code by replacing every `any` by the corresponding interface.
-
-You're now ready to implement the requested features.
-
-Good luck!
-
 # Projet : Développez le frontend en utilisant Angular
 
 Le but de ce projet était de proposer une visualisation des données de Jeux Olympiques à l'aide de plusieurs graphiques.
 
-## Page d'accueil
+## Architecture du code et parcours utilisateur
 
-Sur la page d'acceuil, on retrouve
+Ce code fonctionne autour de 3 composants affichés selon l'URL entrée par l'utilisateur :
+
+### Home : accueil
+
+Ce composant représente le point d'entrée attendu de l'application pour un utilisateur. Les données générales sur l'ensemble des pays participants sont affichées sous la forme d'un graphique en disque, et l'accès au détail de chaque pays se fait en cliquant sur la portion de disque correspondante.
+
+### Détail
+
+Ce composant affiche en détail les données temporelles relatives au pays sélectionné. Un graphique en ligne affiche le nombre de médailles obtenues par édition des jeux olympiques.
+
+Ce composant pouvant être accédé via un clic à partir du tableau de bord principal et par entrée directe de l'URL de l'utilisateur, l'id correspondant au pays sélectionné est vérifié, et redirige vers le tableau de bord principal en cas de pays non valide.
+
+### En cas d'erreur sur l'URL
+
+En cas d'erreur sur l'URL entrée autre que pour détail du pays, l'utilisateur voit une page avec un message et un lien l'invitant à retourner sur la page d'accueil.
+
+## Lancer le projet
+
+Pour lancer le projet, il faut tout d'abord installer les dépendances nécessaires à l'aide de la commande `npm install`. Puis, lancer le serveur de test s'effectue avec la commande `npm run start`. La page est alors accessible à l'URL http://localhost:4200. 
